@@ -1,0 +1,5 @@
+nvim
+fzf
+golang
+bat
+kubectx
