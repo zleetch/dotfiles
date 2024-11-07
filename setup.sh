@@ -9,7 +9,6 @@ apt install neovim git curl build-essential software-properties-common cmake
 
 # Install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-cp .zshrc ~/.zshrc
 
 # Install starship
 cargo install starship --locked
@@ -19,12 +18,14 @@ cp starship.toml ~/.config/starship.toml
 
 # Install nerdfont
 curl -sS https://webi.sh/nerdfont | sh
+source ~/.config/envman/PATH.env
 webi lsd
 lsd -lahF
 
 # Install antigen
 curl -L git.io/antigen > $HOME/.config/.antigen.zsh
 
+cp .zshrc ~/.zshrc
 source ~/.zshrc
 
 # Install asdf
