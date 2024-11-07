@@ -8,7 +8,7 @@ ROOTPATH=$(shell pwd)
 
 .ONESHELL:
 .SHELL := /usr/bin/bash
-.PHONY: zsh starship antigen lazyvim asdf sync
+.PHONY: zsh starship antigen lazyvim asdf sync install
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -28,7 +28,9 @@ depLazyvim: depedencies
 	sudo apt install -y neovim
 
 zsh: depZsh ## Install zsh
-	curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+	if [ ! -d "~/.oh-my-zsh" ]; then \
+		curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh; \
+	fi
 
 starship: depStarship ## Install starship and nerdfont
 	curl https://sh.rustup.rs -sSf | sh
@@ -41,7 +43,8 @@ starship: depStarship ## Install starship and nerdfont
 
 antigen: depedencies ## Install Antigen
 	curl -L git.io/antigen > ~/.config/.antigen.zsh
-	touch ~/.fzf.zsh
+	mkdir ~/.fzf
+	touch ~/.fzf/fzf.zsh
 
 lazyvim: depLazyvim ## Install Lazyvim
 	git clone https://github.com/LazyVim/starter ~/.config/nvim
@@ -66,4 +69,6 @@ sync: ## Sync config file
 	cp starship.toml ~/.config/starship.toml
 	cp .zshrc ~/.zshrc
 	zsh
+
+install: zsh starship antigen lazyvim asdf sync ## Install all needed
 
