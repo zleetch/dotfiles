@@ -9,12 +9,13 @@ apt install neovim git curl build-essential software-properties-common cmake
 
 # Install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+cp .zshrc ~/.zshrc
 
 # Install starship
 cargo install starship --locked
 
 # Install starship preset
-starship preset gruvbox-rainbow -o ~/.config/starship.toml
+cp starship.toml ~/.config/starship.toml
 
 # Install nerdfont
 curl -sS https://webi.sh/nerdfont | sh
