@@ -134,6 +134,11 @@ antigen apply
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
+# Function
+gbdiff() {
+    git diff --name-only --relative --diff-filter=d | xargs bat --diff
+}
+
 # Autocomplete
 fpath=(${ASDF_DIR}/completions $fpath)
 
