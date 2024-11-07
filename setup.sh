@@ -25,6 +25,8 @@ lsd -lahF
 # Install antigen
 curl -L git.io/antigen > $HOME/.config/.antigen.zsh
 
+source ~/.zshrc
+
 # Install asdf
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch `git describe --tags --abbrev=0`
 
