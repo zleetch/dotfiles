@@ -8,7 +8,7 @@ ROOTPATH=$(shell pwd)
 
 .ONESHELL:
 .SHELL := /usr/bin/bash
-.PHONY: zsh starship antigen lazyvim asdf
+.PHONY: zsh starship antigen lazyvim asdf sync
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -21,42 +21,45 @@ depedencies:
 depZsh: depedencies
 	sudo apt install -y zsh
 
-depAsdf: depedencies
-	git clone https://github.com/asdf-vm/asdf.git
-	cd asdf
-	asdfLatestVersion=`git describe --tags --abbrev=0`
-	cd ..
-	rm -rf asdf
-
 depStarship: depedencies
 	sudo apt install -y build-essential software-properties-common cmake
 
+depLazyvim: depedencies
+	sudo apt install -y neovim
+
 zsh: depZsh ## Install zsh
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
 
 starship: depStarship ## Install starship and nerdfont
 	curl https://sh.rustup.rs -sSf | sh
-	. "$HOME/.cargo/env"
+	. "$(HOME)/.cargo/env"
 	cargo install starship --locked
-	curl -sS https://webi.sh/nerfont | sh
+	curl -sS https://webi.sh/nerdfont | sh
 	. ~/.config/envman/PATH.env
 	webi lsd
 	lsd -lahF
 
 antigen: depedencies ## Install Antigen
-	curl -L git.io/antigen > #HOME/.config/.antigen.zsh
+	curl -L git.io/antigen > ~/.config/.antigen.zsh
 	touch ~/.fzf.zsh
 
-lazyvim: depedencies ## Install Lazyvim
+lazyvim: depLazyvim ## Install Lazyvim
 	git clone https://github.com/LazyVim/starter ~/.config/nvim
 	rm -rf ~/.config/nvim.git
 
-asdf: depAsdf ## Install asdf
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch $(asdfLatestVersion)
-	while read package; do
-		packageVersion=`asdf list all $(package) | tail -n 1`
-		asdf install $(package) $(packageVersion)
-		asdf global $(package) $(packageVersion)
+asdf: depedencies ## Install asdf
+	git clone https://github.com/asdf-vm/asdf.git
+	cd asdf
+	asdfLatest=$$(git describe --tags --abbrev=0)
+	cd ..
+	rm -rf asdf
+	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch $$asdfLatest
+	. "$(HOME)/.asdf/asdf.sh"
+	while IFS= read -r package; do
+		asdf plugin add $$package
+		packageVersion=$$(asdf list all $$package | tail -n 1)
+		asdf install $$package $$packageVersion
+		asdf global $$package $$packageVersion
 	done <asdf-list.txt
 
 sync: ## Sync config file

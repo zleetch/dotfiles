@@ -1,4 +1,3 @@
-nvim
 fzf
 golang
 bat
