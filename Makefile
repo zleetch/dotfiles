@@ -1,14 +1,6 @@
-BOLD=$(shell tput bold)
-RED=$(shell tput setaf 1)
-GREEN=$(shell tput setaf 2)
-YELLOW=$(shell tput setaf 3)
-RESET=$(shell tput sgr0)
-
-ROOTPATH=$(shell pwd)
-
 .ONESHELL:
 .SHELL := /usr/bin/bash
-.PHONY: zsh starship antigen lazyvim asdf sync
+.PHONY: zsh starship antigen lazyvim asdf asdfPlugin sync
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -41,8 +33,8 @@ starship: depStarship ## Install starship and nerdfont
 
 antigen: depedencies ## Install Antigen
 	curl -L git.io/antigen > ~/.config/.antigen.zsh
-	mkdir ~/.fzf
-	touch ~/.fzf/fzf.zsh
+	mkdir -p ~/.fzf/shell
+	touch ~/.fzf/fzf.zsh ~/.fzf/shell/key-bindings.zsh
 
 lazyvim: depLazyvim ## Install Lazyvim
 	git clone https://github.com/LazyVim/starter ~/.config/nvim
@@ -56,6 +48,8 @@ asdf: depedencies ## Install asdf
 	rm -rf asdf
 	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch $$asdfLatest
 	. "$(HOME)/.asdf/asdf.sh"
+	
+asdfPlugin: ## Install asdf plugin
 	while IFS= read -r package; do
 		asdf plugin add $$package
 		packageVersion=$$(asdf list all $$package | tail -n 1)
@@ -66,4 +60,4 @@ asdf: depedencies ## Install asdf
 sync: ## Sync config file
 	cp starship.toml ~/.config/starship.toml
 	cp .zshrc ~/.zshrc
-	zsh
+	chsh -s $$(which zsh)

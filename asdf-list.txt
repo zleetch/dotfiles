@@ -1,3 +1,4 @@
+minikube
 fzf
 golang
 bat
