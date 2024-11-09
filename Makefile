@@ -1,6 +1,6 @@
 .ONESHELL:
 .SHELL := /usr/bin/bash
-.PHONY: zsh starship antigen lazyvim asdf asdfPlugin sync
+.PHONY: zsh starship antigen lazyvim asdf asdfPlugin sync docker
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -15,6 +15,9 @@ depZsh: depedencies
 
 depStarship: depedencies
 	sudo apt install -y build-essential software-properties-common cmake
+
+depDocker: depedencies
+	sudo apt install -y apt-transport-https ca-certificates gnupg-agent software-properties-common
 
 depLazyvim: depedencies
 	sudo apt install -y neovim
@@ -57,7 +60,14 @@ asdfPlugin: ## Install asdf plugin
 		asdf global $$package $$packageVersion
 	done <asdf-list.txt
 
+docker: depDocker ## Install docker
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $$(lsb_release -cs) stable"
+	sudo apt update
+	sudo apt install -y docker-ce docker-ce-cli containerd.io
+
 sync: ## Sync config file
 	cp starship.toml ~/.config/starship.toml
 	cp .zshrc ~/.zshrc
+	cp .tmux.conf ~/.tmux.conf
 	chsh -s $$(which zsh)
