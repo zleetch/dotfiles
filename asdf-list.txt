@@ -1,3 +1,5 @@
+kustomize
+helm
 yq
 jq
 minikube
