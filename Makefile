@@ -70,4 +70,5 @@ sync: ## Sync config file
 	cp starship.toml ~/.config/starship.toml
 	cp .zshrc ~/.zshrc
 	cp .tmux.conf ~/.tmux.conf
+	cp lazyvim.json ~/.config/nvim/lazyvim.json
 	chsh -s $$(which zsh)

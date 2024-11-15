@@ -144,6 +144,10 @@ lfcd() {
     cd "$(command lf -print-last-dir "$@")"
 }
 
+rstest() {
+    cargo test $1 -- --exact --nocapture
+}
+
 # Autocomplete
 fpath=(${ASDF_DIR}/completions $fpath)
 

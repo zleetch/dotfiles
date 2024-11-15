@@ -1,3 +1,6 @@
+istioctl
+lua
+ripgrep
 kustomize
 helm
 yq
