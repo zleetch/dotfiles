@@ -41,7 +41,11 @@ antigen: depedencies ## Install Antigen
 
 lazyvim: depLazyvim ## Install Lazyvim
 	mv ~/.config/nvim{,.bak}
-	cp -r nvim ~/.config/
+	cp -r nvim/config ~/.config/nvim
+	# cp -r nvim/local/mason ~/.local/share/nvim/mason
+	
+	# rm ~/.local/share/nvim/mason/bin/rust-analyzer
+	# ln -s ~/.cargo/bin/rust-analyzer ~/.local/share/nvim/mason/bin/rust-analyzer
 
 asdf: depedencies ## Install asdf
 	git clone https://github.com/asdf-vm/asdf.git
