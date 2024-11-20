@@ -4,7 +4,7 @@
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export STARSHIP_CACHE="$HOME/.starship/cache"
-export PATH="$HOME/.config/envman/PATH.env:$HOME/.cargo/bin:$PATH"
+export PATH="/opt/nvim-linux64/bin:$HOME/.config/envman/PATH.env:$HOME/.cargo/bin:$PATH"
 export ANTIGEN_LOG=~/.config/.antigen.log
 
 # Set name of the theme to load --- if set to "random", it will

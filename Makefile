@@ -40,8 +40,8 @@ antigen: depedencies ## Install Antigen
 	touch ~/.fzf/fzf.zsh ~/.fzf/shell/key-bindings.zsh
 
 lazyvim: depLazyvim ## Install Lazyvim
-	git clone https://github.com/LazyVim/starter ~/.config/nvim
-	rm -rf ~/.config/nvim.git
+	mv ~/.config/nvim{,.bak}
+	cp -r nvim ~/.config/
 
 asdf: depedencies ## Install asdf
 	git clone https://github.com/asdf-vm/asdf.git
@@ -67,8 +67,8 @@ docker: depDocker ## Install docker
 	sudo apt install -y docker-ce docker-ce-cli containerd.io
 
 sync: ## Sync config file
+	sudo apt install -y python3-venv
 	cp starship.toml ~/.config/starship.toml
 	cp .zshrc ~/.zshrc
 	cp .tmux.conf ~/.tmux.conf
-	cp lazyvim.json ~/.config/nvim/lazyvim.json
 	chsh -s $$(which zsh)

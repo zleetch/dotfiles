@@ -1,3 +1,10 @@
+nodejs
+kubeval
+kubesec
+kubeseal
+kubeshark
+awscli
+terragrunt
 istioctl
 lua
 ripgrep
