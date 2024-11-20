@@ -11,7 +11,7 @@ depedencies:
 	sudo apt install -y git curl
 
 depZsh: depedencies
-	sudo apt install -y zsh lf
+	sudo apt install -y zsh lf colordiff
 
 depStarship: depedencies
 	sudo apt install -y build-essential software-properties-common cmake

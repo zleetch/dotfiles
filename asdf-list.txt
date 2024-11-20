@@ -16,4 +16,5 @@ minikube
 fzf
 golang
 bat
+bat-extras
 kubectx

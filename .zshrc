@@ -133,7 +133,14 @@ antigen apply
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
+alias cat="bat"
+alias rg="batgrep"
+alias man="batman"
+alias bdiff="batdiff"
 
+compare() {
+    diff -y $1 $2 | colordiff | bat --paging=always --language=diff
+}
 # Function
 gbdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
