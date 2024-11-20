@@ -61,6 +61,16 @@ asdfPlugin: ## Install asdf plugin
 		asdf plugin add $$package
 		packageVersion=$$(asdf list all $$package | tail -n 1)
 		asdf install $$package $$packageVersion
+		result=$$?
+		failedPackage=$$packageVersion
+		while [ $$result -ne 0 ]
+		do
+			failedPackages=$$(echo $$failedPackage | sed 's/ /\\|/g')
+			packageVersion=$$(asdf list all $$package | sed "/$$failedPackages/d" | tail -n 1 )
+			asdf install $$package $$packageVersion
+			result=$$?
+			failedPackage="$$failedPackage $$packageVersion"
+		done
 		asdf global $$package $$packageVersion
 	done <asdf-list.txt
 
