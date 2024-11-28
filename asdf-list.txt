@@ -1,3 +1,6 @@
+terraform
+lazygit
+k9s
 grpcurl
 protoc
 nodejs
