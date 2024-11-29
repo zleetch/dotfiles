@@ -59,20 +59,28 @@ asdf: depedencies ## Install asdf
 	@. "$(HOME)/.asdf/asdf.sh"
 	
 asdfPlugin: ## Install asdf plugin
-	@while IFS= read -r package; do
+	@while IFS= read -r line; do
+		@package=$$(echo "$$line" | awk -F ',' '{ print $$1 }')
+		@desiredVersion=$$(echo "$$line" | awk -F ',' '{ print $$2 }')
 		@asdf plugin add $$package
-		@packageVersion=$$(asdf list all $$package | tail -n 1)
-		@asdf install $$package $$packageVersion
+		@asdf install $$package $$desiredVersion
 		@result=$$?
-		@failedPackage=$$packageVersion
+		@desiredVersionCheck=$$result
+		if [ "$$result" = 0 ]; then 
+			@asdf global $$package $$desiredVersion
+		fi
+		@failedPackage=$$desiredVersion
 		@while [ $$result -ne 0 ]; do
 			@failedPackages=$$(echo $$failedPackage | sed 's/ /\\|/g')
-			@packageVersion=$$(asdf list all $$package | sed "/$$failedPackages/d" | tail -n 1 )
+			@latestVersion=$$(asdf list all $$package | sed "/$$failedPackages/d" | tail -n 1 )
 			@asdf install $$package $$packageVersion
 			@result=$$?
-			@failedPackage="$$failedPackage $$packageVersion"
+			@failedPackage="$$failedPackage $$latestVersion"
+			@sed -i '' '/^$${package},/s/\([^,]*,\)[^,]*/\1$${latestVersion}/' asdf-list.txt
 		@done
-		@asdf global $$package $$packageVersion
+		if [ "$$desiredVersionCheck" = 1 ]; then
+			@asdf global $$package $$packageVersion
+		fi
 	@done <asdf-list.txt
 
 docker: depDocker ## Install docker
