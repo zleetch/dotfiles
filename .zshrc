@@ -77,14 +77,14 @@ export ANTIGEN_LOG=~/.config/.antigen.log
 
 # Source
 source $ZSH/oh-my-zsh.sh
-source $HOME/.config/.antigen.zsh 
+source $HOME/.config/.antigen.zsh
 
 # Load Antigen zsh library
 antigen use oh-my-zsh
 
 # Load Antigen Plugin
 antigen bundle asdf
-
+antigen bundle Aloxaf/fzf-tab
 antigen bundle unixorn/fzf-zsh-plugin --branch=main
 antigen bundle command-not-found
 antigen bundle zsh-users/zsh-autosuggestions
