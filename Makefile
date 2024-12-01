@@ -73,13 +73,13 @@ asdfPlugin: ## Install asdf plugin
 		@while [ $$result -ne 0 ]; do
 			@failedPackages=$$(echo $$failedPackage | sed 's/ /\\|/g')
 			@latestVersion=$$(asdf list all $$package | sed "/$$failedPackages/d" | tail -n 1 )
-			@asdf install $$package $$packageVersion
+			@asdf install $$package $$latestVersion
 			@result=$$?
 			@failedPackage="$$failedPackage $$latestVersion"
-			@sed -i '' '/^$${package},/s/\([^,]*,\)[^,]*/\1$${latestVersion}/' asdf-list.txt
+			@sed -i "/^"$$package",/s/\([^,]*,\)[^,]*/\1"$$latestVersion"/g" asdf-list.txt
 		@done
 		if [ "$$desiredVersionCheck" = 1 ]; then
-			@asdf global $$package $$packageVersion
+			@asdf global $$package $$latestVersion
 		fi
 	@done <asdf-list.txt
 
