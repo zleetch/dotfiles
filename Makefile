@@ -62,6 +62,8 @@ asdfPlugin: ## Install asdf plugin
 	@while IFS= read -r line; do
 		@package=$$(echo "$$line" | awk -F ',' '{ print $$1 }')
 		@desiredVersion=$$(echo "$$line" | awk -F ',' '{ print $$2 }')
+		@latest=$$(asdf list all $$package | tail -n 1)
+		@sed -E -i "/^"$$package"/s/^([^,]*,)([^,]*,)[^,]*/\1\2"$$latest"/g" asdf-list.txt
 		@asdf plugin add $$package
 		@asdf install $$package $$desiredVersion
 		@result=$$?
