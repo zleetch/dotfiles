@@ -133,7 +133,6 @@ antigen apply
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-alias cat="bat"
 alias rg="batgrep"
 alias man="batman"
 alias bdiff="batdiff"
