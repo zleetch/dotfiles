@@ -1,6 +1,6 @@
 .ONESHELL:
 .SHELL := /usr/bin/bash
-.PHONY: zsh starship antigen lazyvim asdf asdfPlugin sync docker
+.PHONY: zsh starship antigen lazyvim asdf asdfPlugin sync docker tpm
 
 
 
@@ -90,6 +90,9 @@ docker: depDocker ## Install docker
 	@sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $$(lsb_release -cs) stable"
 	@sudo apt update
 	@sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+tpm: ## Install tmux plugin manager
+	@git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 sync: ## Sync config file
 	@sudo apt install -y python3-venv
