@@ -2,11 +2,12 @@
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
+user=$(whoami)
 export ZSH="$HOME/.oh-my-zsh"
 export STARSHIP_CACHE="$HOME/.starship/cache"
-export PATH="/opt/nvim-linux64/bin:$HOME/.config/envman/PATH.env:$HOME/.cargo/bin:$PATH"
+export ASDF_DATA_DIR="$HOME/$user/.asdf"
+export PATH="/opt/nvim-linux64/bin:$HOME/.config/envman/PATH.env:$HOME/.cargo/bin:$ASDF_DATA_DIR/shims:$PATH"
 export ANTIGEN_LOG=~/.config/.antigen.log
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME

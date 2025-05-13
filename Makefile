@@ -10,7 +10,7 @@ help:
 depedencies:
 	@mkdir -p ~/.config
 	@sudo apt update -y
-	@sudo apt install -y git curl
+	@sudo apt install -y git curl unzip
 
 depZsh: depedencies
 	@sudo apt install -y zsh lf colordiff
@@ -42,7 +42,7 @@ antigen: depedencies ## Install Antigen
 	@touch ~/.fzf/fzf.zsh ~/.fzf/shell/key-bindings.zsh
 
 lazyvim: depLazyvim ## Install Lazyvim
-	@mv ~/.config/nvim{,.bak}
+	# @mv ~/.config/nvim{,.bak}
 	@cp -r nvim/config ~/.config/nvim
 	# cp -r nvim/local/mason ~/.local/share/nvim/mason
 	
@@ -50,13 +50,7 @@ lazyvim: depLazyvim ## Install Lazyvim
 	# ln -s ~/.cargo/bin/rust-analyzer ~/.local/share/nvim/mason/bin/rust-analyzer
 
 asdf: depedencies ## Install asdf
-	@git clone https://github.com/asdf-vm/asdf.git
-	@cd asdf
-	@asdfLatest=$$(git describe --tags --abbrev=0)
-	@cd ..
-	@rm -rf asdf
-	@git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch $$asdfLatest
-	@. "$(HOME)/.asdf/asdf.sh"
+	@git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.15.0
 	
 asdfPlugin: ## Install asdf plugin
 	@while IFS= read -r line; do
